@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html class="h-full bg-gray-100" lang="de">
+    <head>
+        <title>{{ 'Filament Info'|trans }}</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- <link href="/css/styles.css" rel="stylesheet"> -->
+        <link href="{{ basefolder }}/css/all.min.css" rel="stylesheet">
+        <link rel="icon" type="image/png" href="{{ basefolder }}/images/filament.png" />
+    <style>
+        .center-vertical {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    </head>
+<body class="h-full">
+<div class="min-h-full">
+
+{% include "navigation.html.twig" with {'target': target} %}
+{% include "breadcrumb.html.twig" with {'target': target} %}
+{% block content %}{% endblock %}
+</div>
+</body>
+</html>

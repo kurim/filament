@@ -1,0 +1,228 @@
+{% extends 'base.html.twig' %}
+{% block content %}
+<main>
+    <div class="mx-auto max-w-7xl py-6 md:px-6 lg:px-8">
+        <div class="bg-white shadow-md rounded-lg overflow-hidden">
+        <div class="w-full">
+        <form id="filamentform" enctype="multipart/form-data">
+            <div class="container mx-auto p-4">
+            <div class="relative grid grid-cols-2 gap-4">
+                <!-- Vendor (Dropdown) -->
+                <div class="mb-4 relative rounded-md shadow-sm">
+                    <label for="vendor" class="text-gray-500 text-xs font-medium px-1 inline-block absolute left-2 -top-2 bg-white">{{ 'Vendor'|trans }}</label>
+                    <select id="vendor" name="vendor" class="block w-full rounded-md border-0 px-2 py-[0.375rem] ring-1 leading-6 text-sm shadow-sm focus:outline-none focus:ring-indigo-600 focus:ring-inset focus:ring-2">
+                        {% for vendor in vendors %}
+                            <option value="{{ vendor.v_id }}">{{ vendor.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Type -->
+                <div class="mb-4 relative rounded-md shadow-sm">
+                    <label for="filament_type" class="text-gray-500 text-xs font-medium px-1 inline-block absolute left-2 -top-2 bg-white">{{ 'Type'|trans }}</label>
+                    <select id="filament_type" name="filament_type" class="block w-full rounded-md border-0 px-2 py-[0.375rem] ring-1 leading-6 text-sm shadow-sm focus:outline-none focus:ring-indigo-600 focus:ring-inset focus:ring-2">
+                        {% for ft in filament_type %}
+                            <option value="{{ ft.id }}">{{ ft.type_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                </div>
+            <!-- Color -->
+            <div class="mb-4 relative rounded-md shadow-sm">
+                <label for="colorname" class="text-gray-500 text-xs font-medium px-1 inline-block absolute left-2 -top-2 bg-white">{{ 'Colorname'|trans }}</label>
+                <input type="text" required id="colorname" name="colorname" class="block w-full rounded-md border-0 px-2 py-[0.375rem] ring-1 leading-6 text-sm shadow-sm focus:outline-none focus:ring-indigo-600 focus:ring-inset focus:ring-2">
+            </div>
+
+            <!-- Color Hex -->
+            <div class="mb-4 relative grid grid-cols-2 gap-4">
+                <div class="relative rounded-md shadow-sm">
+                <label for="colorhex" class="text-gray-500 text-xs font-medium px-1 inline-block absolute left-2 -top-2 bg-white">{{ 'Color Hexvalue'|trans }}</label>
+                <input maxlength="7" oninput="updateColor()" type="text" required id="colorhex" name="colorhex" class="block w-full rounded-md border-0 px-2 py-[0.375rem] ring-1 leading-6 text-sm shadow-sm focus:outline-none focus:ring-indigo-600 focus:ring-inset focus:ring-2">
+                </div>
+                <div class="relative">
+                <span id="colorPreview" class="inline-block mt-2 align-middle ring-2 ring-gray-500 ring-offset-1 rounded-full w-4 h-4 ml-2"></span> 
+                </div>
+            </div>
+
+            <!-- K Factor -->
+            <div class="mb-4 relative rounded-md shadow-sm">
+                <label for="kfactor" class="text-gray-500 text-xs font-medium px-1 inline-block absolute left-2 -top-2 bg-white">{{ 'K-Factor'|trans }}</label>
+                <input type="number" required id="kfactor" name="kfactor" step="0.001" class="block w-full rounded-md border-0 px-2 py-[0.375rem] ring-1 leading-6 text-sm shadow-sm focus:outline-none focus:ring-indigo-600 focus:ring-inset focus:ring-2">
+            </div>
+
+            <div class="relative grid grid-cols-2 gap-4">
+                <!-- Diameter -->
+                <div class="mb-2 relative rounded-md shadow-sm">
+                    <label for="diameter" class="text-gray-500 text-xs font-medium px-1 inline-block absolute left-2 -top-2 bg-white">{{ 'Diameter'|trans }}</label>
+                    <input type="number" required id="diameter" name="diameter" step="0.001" class="block w-full rounded-md border-0 px-2 py-[0.375rem] ring-1 leading-6 text-sm shadow-sm focus:outline-none focus:ring-indigo-600 focus:ring-inset focus:ring-2">
+                </div>
+
+                <!-- Diameter Variance -->
+                <div class="mb-2 relative rounded-md shadow-sm">
+                    <label for="diameter_variance" class="text-gray-500 text-xs font-medium px-1 inline-block absolute left-2 -top-2 bg-white">{{ 'Diameter deviation'|trans }}</label>
+                    <input type="number" required id="diameter_variance" name="diameter_variance" step="0.001" class="block w-full rounded-md border-0 px-2 py-[0.375rem] ring-1 leading-6 text-sm shadow-sm focus:outline-none focus:ring-indigo-600 focus:ring-inset focus:ring-2">
+                </div>
+            </div>
+
+            <!-- Hotend Temperatures -->
+            <div class="mb-2 relative">
+                <span class="text-gray-500 text-xs font-medium mb-2 inline-block">{{ 'Nozzle temperature'|trans }}</span>
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="relative rounded-md shadow-sm">
+                        <label for="nozzletemp_low" class="text-gray-500 text-xs font-medium px-1 inline-block absolute left-2 -top-2 bg-white">{{ 'Low'|trans }}</label>
+                        <input max="300" type="number" required id="nozzletemp_low" name="nozzletemp_low" class="block w-full rounded-md border-0 px-2 py-[0.375rem] ring-1 leading-6 text-sm shadow-sm focus:outline-none focus:ring-indigo-600 focus:ring-inset focus:ring-2">
+                    </div>
+                    <div class="relative rounded-md shadow-sm">
+                        <label for="nozzletemp_high" class="text-gray-500 text-xs font-medium px-1 inline-block absolute left-2 -top-2 bg-white">{{ 'High'|trans }}</label>
+                        <input max="300" type="number" required id="nozzletemp_high" name="nozzletemp_high" class="block w-full rounded-md border-0 px-2 py-[0.375rem] ring-1 leading-6 text-sm shadow-sm focus:outline-none focus:ring-indigo-600 focus:ring-inset focus:ring-2">
+                    </div>
+                    <div class="relative rounded-md shadow-sm">
+                        <label for="nozzletemp_sug" class="text-gray-500 text-xs font-medium px-1 inline-block absolute left-2 -top-2 bg-white">{{ 'Suggested'|trans }}</label>
+                        <input max="300" type="number" required id="nozzletemp_sug" name="nozzletemp_sug" class="block w-full rounded-md border-0 px-2 py-[0.375rem] ring-1 leading-6 text-sm shadow-sm focus:outline-none focus:ring-indigo-600 focus:ring-inset focus:ring-2">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Plate Temperatures -->
+            <div class="mb-2 relative">
+                <span class="text-gray-500 text-xs font-medium mb-2 inline-block">{{ 'Plate Temperatures'|trans }}</span>
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="relative rounded-md shadow-sm">
+                        <label for="platetemp_low" class="text-gray-500 text-xs font-medium px-1 inline-block absolute left-2 -top-2 bg-white">{{ 'Low'|trans }}</label>
+                            <input max="300" type="number" required id="platetemp_low" name="platetemp_low" class="block w-full rounded-md border-0 px-2 py-[0.375rem] ring-1 leading-6 text-sm shadow-sm focus:outline-none focus:ring-indigo-600 focus:ring-inset focus:ring-2">
+                        </div>
+                        <div class="relative rounded-md shadow-sm">
+                            <label for="platetemp_high" class="text-gray-500 text-xs font-medium px-1 inline-block absolute left-2 -top-2 bg-white">{{ 'High'|trans }}</label>
+                            <input max="300" type="number" required id="platetemp_high" name="platetemp_high" class="block w-full rounded-md border-0 px-2 py-[0.375rem] ring-1 leading-6 text-sm shadow-sm focus:outline-none focus:ring-indigo-600 focus:ring-inset focus:ring-2">
+                        </div>
+                        <div class="relative rounded-md shadow-sm">
+                            <label for="platetemp_sug" class="text-gray-500 text-xs font-medium px-1 inline-block absolute left-2 -top-2 bg-white">{{ 'Suggested'|trans }}</label>
+                            <input max="300" type="number" required id="platetemp_sug" name="platetemp_sug" class="block w-full rounded-md border-0 px-2 py-[0.375rem] ring-1 leading-6 text-sm shadow-sm focus:outline-none focus:ring-indigo-600 focus:ring-inset focus:ring-2">
+                        </div>
+                    </div>
+            </div>   
+
+            <!-- Print Speeds -->
+            <div class="mb-4 relative">
+                <span class="text-gray-500 text-xs font-medium mb-2 inline-block">{{ 'Print Speeds'|trans }}</span>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="relative rounded-md shadow-sm">
+                        <label for="printspeed_low" class="text-gray-500 text-xs font-medium px-1 inline-block absolute left-2 -top-2 bg-white">{{ 'Low'|trans }}</label>
+                        <input type="number" id="printspeed_low" required name="printspeed_low" class="block w-full rounded-md border-0 px-2 py-[0.375rem] ring-1 leading-6 text-sm shadow-sm focus:outline-none focus:ring-indigo-600 focus:ring-inset focus:ring-2">
+                    </div>
+                    <div class="relative rounded-md shadow-sm">
+                        <label for="printspeed_high" class="text-gray-500 text-xs font-medium px-1 inline-block absolute left-2 -top-2 bg-white">{{ 'High'|trans }}</label>
+                        <input type="number" id="printspeed_high" required name="printspeed_high" class="block w-full rounded-md border-0 px-2 py-[0.375rem] ring-1 leading-6 text-sm shadow-sm focus:outline-none focus:ring-indigo-600 focus:ring-inset focus:ring-2">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Filament Image (Upload Field) -->
+            <div class="mb-4 relative rounded-md shadow-sm">
+                <label for="filament_image" class="text-gray-500 text-xs font-medium px-1 inline-block absolute left-2 -top-2 bg-white">{{ 'Filament Image'|trans }}</label>
+                <label for="filament_image" class="block w-full rounded-md border-1 border border-gray-300 py-2 px-3 cursor-pointer text-sm text-gray-600 hover:bg-gray-100 hover:border-gray-400 focus:outline-none focus:border-indigo-600 focus:ring-indigo-600 focus:ring-inset focus:ring-2">
+                    <span class="block text-center" id="fileLabel">
+                        {{ 'Select an Image'|trans }}
+                    </span>
+                    <input type="file" id="filament_image" name="filament_image" class="hidden" accept=".png, .jpg" onchange="updateFileName()">
+                </label>
+            </div>
+
+            <!-- Product Link (URL Field) -->
+            <div class="mb-4 relative rounded-md shadow-sm">
+                <label class="text-gray-500 text-xs font-medium px-1 inline-block absolute left-2 -top-2 bg-white">{{ 'Product Link (Vendor)'|trans }}</label>
+                <input type="url" filetypeid="productlink" required name="productlink" class="block w-full rounded-md border-0 px-2 py-[0.375rem] ring-1 leading-6 text-sm shadow-sm focus:outline-none focus:ring-indigo-600 focus:ring-inset focus:ring-2">
+            </div>
+
+            <!-- Submit Button -->
+            <div class="mb-4">
+                <button id="submit" type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded">{{ 'Submit'|trans }}</button>
+            </div>
+        </div>
+        </form>
+        </div>
+        </div>
+        <div id="adddone" class="bg-white shadow-md rounded-lg overflow-hidden mt-1 p-4 hidden">
+            <a href="" id="filalink">{{ 'Filament added'|trans }}</a>
+        </div>
+    </div>
+</main>
+
+<script>
+const submit = document.getElementById('submit');
+const form = document.getElementById('filamentform')
+
+form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    submitForm();
+});
+
+submit.addEventListener("click", function(e) {
+    e.preventDefault();
+    submitForm();
+});
+
+
+function updateColor() {
+    const colorHexInput = document.getElementById('colorhex');
+    const colorPreview = document.getElementById('colorPreview');
+
+    // Get the entered hex value
+    let hexValue = colorHexInput.value.trim();
+
+    // Check if "#" is present, and add it if not
+    if (!hexValue.startsWith("#")) {
+        hexValue = `#${hexValue}`;
+    }
+    // Set the background color of the preview span
+    colorPreview.style.backgroundColor = hexValue;
+    // Update the input value with the corrected hex value
+    colorHexInput.value = hexValue;
+}
+function updateFileName() {
+    const fileInput = document.getElementById('filament_image');
+    const fileLabel = document.getElementById('fileLabel');
+
+    if (fileInput.files.length > 0) {
+        const fileName = fileInput.files[0].name;
+        fileLabel.textContent = fileName;
+    } else {
+        fileLabel.textContent = 'Upload a file';
+    }
+}
+function submitForm() {
+   const form = document.getElementById('filamentform')
+    // Create a FormData object to store form data including files
+    const formData = new FormData(form);
+
+    // Send the form data to the server using AJAX, fetch, or any other method
+    // Example using fetch:
+    fetch('/api/addfilament', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => {
+        // Handle the response from the server
+        if (response.ok) {
+            return response.text(); // Parse the response JSON data
+            // Form submission was successful
+
+            console.log('Form submitted successfully');
+            
+        } else {
+            // Form submission failed
+            console.error('Form submission failed');
+        }
+    })
+    .then(data => {
+        // Handle the parsed response data
+        document.getElementById('filalink').href = '/filament?'+data
+        document.getElementById('adddone').classList.remove('hidden');
+    })
+    .catch(error => {
+        // Handle any network or other errors
+        console.error('An error occurred:', error);
+    });
+}
+</script>
+{% endblock %}
