@@ -20,7 +20,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td class="py-2 px-2 border-b border-gray-200">Durchmesser</td>
+                                <td class="py-2 px-2 border-b border-gray-200">{{ 'Diameter'|trans }}</td>
                                 <td class="py-2 px-2 border-b border-gray-200">{{ filament.diameter }}mm ±{{ filament.diameter_variance }}mm</td>
                             </tr>
                             <tr>
@@ -33,7 +33,7 @@
                                         <span class="relative top-[0.3rem]">
                                         <svg class="absolute left-2 text-gray-500" width="12" height="11" viewBox="0 0 12 11" fill="none" aria-hidden="true"><path d="M11 9H4C2.89543 9 2 8.10457 2 7V1C2 0.447715 1.55228 0 1 0C0.447715 0 0 0.447715 0 1V7C0 9.20914 1.79086 11 4 11H11C11.5523 11 12 10.5523 12 10C12 9.44771 11.5523 9 11 9Z" fill="currentColor"></path></svg>
                                         </span>
-                                        <div class="relative ml-6 py-[2px]">Empfohlene Temperatur</div>
+                                        <div class="relative ml-6 py-[2px]">{{ 'Suggested temperature'|trans }}</div>
                                     </li>
                                 </ul>
                                 </ul>
@@ -51,7 +51,7 @@
                                         <span class="relative top-[0.3rem]">
                                         <svg class="absolute left-2 text-gray-500" width="12" height="11" viewBox="0 0 12 11" fill="none" aria-hidden="true"><path d="M11 9H4C2.89543 9 2 8.10457 2 7V1C2 0.447715 1.55228 0 1 0C0.447715 0 0 0.447715 0 1V7C0 9.20914 1.79086 11 4 11H11C11.5523 11 12 10.5523 12 10C12 9.44771 11.5523 9 11 9Z" fill="currentColor"></path></svg>
                                         </span>
-                                        <div class="relative ml-6 py-[2px]">Empfohlene Temperatur</div>
+                                        <div class="relative ml-6 py-[2px]">{{ 'Suggested temperature'|trans }}</div>
                                     </li>
                                 </ul>
                                 </ul>
@@ -60,18 +60,21 @@
                                 {{ filament.platetemp_sug }}°C</td>
                             </tr>
                             <tr>
-                                <td class="py-2 px-2 border-b border-gray-200">Geschwindigkeit</td>
+                                <td class="py-2 px-2 border-b border-gray-200">{{ 'Speed'|trans }}</td>
                                 <td class="py-2 px-2 border-b border-gray-200">{{ filament.printspeed_low }}mm/s - {{ filament.printspeed_high }}mm/s</td>
                             </tr>
                         </table>
                         </div>
                         <div class="flex items-center space-x-4 mb-4">
-                            <a href="{{ filament.productlink }}" target="_blank" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Herstellerseite <i class="fa-solid fa-link"></i></a>
-                            {% if filament.amazonde != null %}
-                            <a href="{{ filament.amazonde }}" target="_blank" class="px-4 py-2 bg-yellow-400 text-black rounded-md hover:bg-yellow-500">Amazon <i class="fa-brands fa-amazon"></i></a>
-                            {% endif %}
-                            <a href="images/qrcodes/{{ filament.f_id }}.png" download="{{ filament.f_id }}.png" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" id="qrcode-download-link">Download <i class="fa-solid fa-qrcode"></i></a>
+                            <a href="{{ filament.productlink }}" target="_blank" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">{{ 'Vendor'|trans }} <i class="fa-solid fa-link"></i></a>
+                            <a href="images/qrcodes/{{ filament.f_id }}.png" download="{{ filament.f_id }}.png" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" id="qrcode-download-link">{{ 'Download'|trans }} <i class="fa-solid fa-qrcode"></i></a>
                         </div>
+                        {% if filament.amazonde != null %}
+                        <div class="flex items-center space-x-4 mb-4">
+                            <a href="{{ filament.amazonde }}" target="_blank" class="px-4 py-2 bg-yellow-400 text-black rounded-md hover:bg-yellow-500">Amazon <i class="fa-brands fa-amazon"></i></a>
+                        </div>
+                        {% endif %}
+
                         {#
                         <h2 class="text-2xl font-semibold mb-2">Templates (Json)</h2>
                         <div class="flex items-center space-x-4 mb-4">

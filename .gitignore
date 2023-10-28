@@ -1,0 +1,4 @@
+/vendor/
+/temp/
+config/db-config.php
+db-config.php
