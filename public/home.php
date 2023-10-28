@@ -3,6 +3,7 @@
 use Functions\Helper;
 $loader = new \Twig\Loader\FilesystemLoader('templates');
 $twig = new \Twig\Environment($loader);
+$twig->addFilter(new \Twig\TwigFilter('trans', [$translator, 'trans']));
 $template = $twig->load('home.html.twig');
 
 

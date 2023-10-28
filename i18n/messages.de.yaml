@@ -1,8 +1,10 @@
 # Menu / Breadcrumb
 Filament Info: Filament Info
-add/filament: Filament hinzufügen
 filamente: Filamente
 filament: Filament
+add/filament: Filament hinzufügen
+add/store: Shop hinzufügen
+add/vendor: Hersteller hinzufügen
 # Filament / Filamente / Add Filament
 Manufacturer information: Herstellerinformationen
 Color: Farbe
@@ -28,3 +30,4 @@ Select an Image: Bild auswählen
 Product Link (Vendor): Produkt Link (Hersteller)
 Submit: Senden
 Filament added: Filament hinzugefügt
+You can buy this Filament in those Stores: Du kannst dieses Filament in diesen Shops kaufen
