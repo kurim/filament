@@ -6,13 +6,6 @@ module.exports = {
       ],
     theme: {
       extend: {
-        colors: {
-          asus_blue: '#015ec5',
-          asus_blue2: '#4f46e5',          
-          asus_lightblue: '#c7d2fe',
-          asus_darkblue: '#4338ca',
-          asus_white: '#f3f6f7',
-        },
         animation: {
           gradient: 'gradient 3s linear infinite',
         },
