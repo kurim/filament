@@ -1,13 +1,13 @@
 {% set classes = {
     '0': 'bg-gray-900 text-white rounded-md px-3 py-2 text-sm font-medium',
-    '1': 'text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium',
+    '1': 'text-gray-300 dark:text-red-500 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium',
 } %}
-<nav class="bg-gray-600">
+<nav class="bg-gray-600 dark:bg-slate-800/75 dark:border-slate-50/[0.06] dark:text-red-500">
 <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 items-center justify-between">
     <div class="flex items-center">
         <div class="flex-shrink-0">
-        <img class="h-8 w-8" src="{{ basefolder }}/images/filament.png" alt="FilamentInfo">
+            <img class="h-8 w-8 dark:invert" src="{{ basefolder }}/images/filament.svg" alt="FilamentInfo">
         </div>
         <div class="hidden md:block">
         <div class="ml-10 flex items-baseline space-x-4">
