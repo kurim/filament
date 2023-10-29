@@ -2,28 +2,158 @@
 {% block content %}
 <main>
     <div class="mx-auto max-w-7xl py-6 md:px-6 lg:px-8">
-        <div class="bg-white shadow-md rounded-lg overflow-hidden">
-            <div class="w-full p-6">
-            {{ 'You can buy this Filament in those Stores'|trans}}
-                <div class="flex items-center space-x-4 mb-4">
-                    {% for item in stores %}
-                        {% if item.website == 'Amazon' %}
-                        {% set bgcolor = 'bg-yellow-400 hover:bg-yellow-500' %}
-                        {% else %}
-                        {% set bgcolor = 'bg-blue-400 hover:bg-blue-500' %}
-                        {% endif %}
-                        <a href="{{ item.url }}" target="_blank" class="px-4 py-2 {{ bgcolor }} text-black rounded-md">
-                        {{ item.website }} ({{ item.region }})
-                        {% if item.website == 'Amazon' %}<i class="fa-brands fa-amazon"></i>
-                        {% else %}<i class="fa-solid fa-link"></i>
-                        {% endif %}
-                        </a>
-                        
-                    {% endfor %}
+        <div class="bg-white shadow-md rounded-lg overflow-hidden mb-6 dark:border-gray-600 dark:bg-slate-700">
+            <div class="w-full">
+                <div class="min-w-full bg-gray-50 px-6 py-3 dark:bg-slate-600/75 dark:border-slate-50/[0.06] dark:text-white">
+                    <h3 class="text-lg font-semibold">{{ 'add_store'|trans({'name': filament.name, 'color': filament.color, 'type_name': filament.type_name}) }}</h3>
                 </div>
-
+                <div class="items-center min-w-full space-x-4 mb-4 mt-3 px-6 pb-3">
+                    <form id="storeform">
+                        <div class="min-w-full ">
+                            <div class="relative grid grid-cols-2 gap-4">
+                                <div class="mb-4 relative rounded-md shadow-sm">
+                                    <label for="websitename" class="text-gray-500 text-xs font-medium px-1 inline-block absolute left-2 -top-2 bg-white dark:bg-slate-600/75 dark:border-slate-50/[0.06] dark:text-white">{{ 'Websitename'|trans }}</label>
+                                    <input type="text" required id="websitename" name="websitename" class="block w-full rounded-md border-0 px-2 py-[0.375rem] ring-1 leading-6 text-sm shadow-sm focus:outline-none focus:ring-indigo-600 focus:ring-inset focus:ring-2
+                                     dark:bg-slate-800 dark:highlight-white/5 dark:hover:bg-slate-700 dark:text-white">
+                                </div>
+                            </div>
+                            <div class="relative grid grid-cols-2 gap-4">
+                                <div class="mb-4 relative rounded-md shadow-sm">
+                                    <label for="regions" class="text-gray-500 text-xs font-medium px-1 inline-block absolute left-2 -top-2 bg-white dark:bg-slate-600/75 dark:border-slate-50/[0.06] dark:text-white">{{ 'Regions'|trans }}</label>
+                                    <select id="regions" name="regions" class="block w-full rounded-md border-0 px-2 py-[0.375rem] ring-1 leading-6 text-sm shadow-sm focus:outline-none focus:ring-indigo-600 focus:ring-inset focus:ring-2
+                                     dark:bg-slate-800 dark:highlight-white/5 dark:hover:bg-slate-700 dark:text-white">
+                                        {% for item in countries %}
+                                            <option value="{{ item.code }}">{{ item.selected_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="mb-4 relative rounded-md shadow-sm">
+                                    <label for="countries" class="text-gray-500 text-xs font-medium px-1 inline-block absolute left-2 -top-2 bg-white dark:bg-slate-600/75 dark:border-slate-50/[0.06] dark:text-white">{{ 'Country'|trans }}</label>
+                                    <select id="countries" name="countries" class="block w-full rounded-md border-0 px-2 py-[0.375rem] ring-1 leading-6 text-sm shadow-sm focus:outline-none focus:ring-indigo-600 focus:ring-inset focus:ring-2
+                                     dark:bg-slate-800 dark:highlight-white/5 dark:hover:bg-slate-700 dark:text-white">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="relative grid gap-4">
+                                <div class="mb-4 relative rounded-md shadow-sm">
+                                    <label for="websiteurl" class="text-gray-500 text-xs font-medium px-1 inline-block absolute left-2 -top-2 bg-white dark:bg-slate-600/75 dark:border-slate-50/[0.06] dark:text-white">{{ 'Websiteurl'|trans }}</label>
+                                    <input type="text" required id="websiteurl" name="websiteurl" class="block w-full rounded-md border-0 px-2 py-[0.375rem] ring-1 leading-6 text-sm shadow-sm focus:outline-none focus:ring-indigo-600 focus:ring-inset focus:ring-2
+                                     dark:bg-slate-800 dark:highlight-white/5 dark:hover:bg-slate-700 dark:text-white">
+                                </div>
+                            </div>
+                            <!-- Submit Button -->
+                            <div>
+                                <button id="submit" type="submit" class="bg-blue-500 text-white font-bold py-2 px-4 rounded">{{ 'Submit'|trans }}</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="bg-white shadow-md rounded-lg overflow-hidden dark:border-gray-600 dark:bg-slate-700">
+            <div class="w-full">
+            {% if stores != null %}
+                <div class="min-w-full bg-gray-50 px-6 py-3 dark:bg-slate-600/75 dark:border-slate-50/[0.06] dark:text-slate-300">
+                <h3 class="text-lg font-semibold">{{ 'buy_filament'|trans({'name': filament.name, 'color': filament.color, 'type_name': filament.type_name}) }}</h3>
+                </div>
+                <div class="flex items-center space-x-4 mb-4 mt-2 px-6 pb-3">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50 dark:bg-slate-800/75">
+                        <tr>
+                            <th scope="col" class="border dark:border-slate-800/75 dark:text-slate-300 px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider">{{ 'Website'|trans }}</th>
+                            <th scope="col" class="border dark:border-slate-800/75 dark:text-slate-300 px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider">{{ 'Region'|trans }}</th>
+                            <th scope="col" class="border dark:border-slate-800/75 dark:text-slate-300 px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider">{{ 'Country'|trans }}</th>
+                            <th scope="col" class="border dark:border-slate-800/75 dark:text-slate-300 px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider">{{ 'Url'|trans }}</th>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                        {% for item in stores %}
+                            {% if item.website == 'Amazon' %}
+                                {% set bgcolor = 'bg-yellow-400 hover:bg-yellow-500' %}
+                            {% else %}
+                                {% set bgcolor = 'bg-blue-400 hover:bg-blue-500' %}
+                            {% endif %}
+                            <tr class="hover:bg-gray-100 cursor-pointer">
+                                <td class="border dark:border-slate-800/75 dark:bg-slate-800/75 dark:text-slate-300 px-2 py-1 whitespace-nowrap">{{ item.website }}</td>
+                                <td class="border dark:border-slate-800/75 dark:bg-slate-800/75 dark:text-slate-300 px-2 py-1 whitespace-nowrap">{{ item.region }}</td>
+                                <td class="border dark:border-slate-800/75 dark:bg-slate-800/75 dark:text-slate-300 px-2 py-1 whitespace-nowrap">{{ item.countryname }}</td>
+                                <td class="border dark:border-slate-800/75 dark:bg-slate-800/75 dark:text-slate-300 px-2 py-1 whitespace-nowrap">{{ item.url }}</td>
+                            <tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+            <div class="min-w-full bg-gray-50 px-6 py-3 dark:bg-slate-600/75 dark:border-slate-50/[0.06] dark:text-slate-300">
+                <h3 class="text-lg font-semibold">{{ 'Currently no Stores listed'|trans }}</h3>
+            </div>
+            {% endif %}
             </div>
         </div>
     </div>
 </main>
+<script>
+const submit = document.getElementById('submit');
+const form = document.getElementById('storeform');
+countries();
+
+form.addEventListener("submit", function(e) {
+    e.preventDefault();
+    submitForm();
+});
+
+submit.addEventListener("click", function(e) {
+    e.preventDefault();
+    submitForm();
+});
+
+document.getElementById('regions').addEventListener("change", function(e) {
+    countries()
+})
+
+async function countries() {
+    const formData = new FormData();
+    let regions = document.getElementById('regions').value;
+    
+    formData.append('language', '{{language}}');
+    formData.append('regions', regions);
+    // Send the form data to the server using AJAX, fetch, or any other method
+    // Example using fetch:
+    fetch('/api/countries', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => {
+        // Handle the response from the server
+        if (response.ok) {
+            return response.json(); // Parse the response JSON data
+            // Form submission was successful
+
+            console.log('Form submitted successfully');
+            
+        } else {
+            // Form submission failed
+            console.error('Form submission failed');
+        }
+    })
+    .then(data => {
+        // Handle the parsed response data
+        let arr = '';
+        data.forEach(element => {
+            arr += '<option value="' + element.code +'">' + element.selected_name +'</option>'            
+        });
+        console.log(arr)
+        document.getElementById('countries').innerHTML = arr;
+    })
+    .catch(error => {
+        // Handle any network or other errors
+        console.error('An error occurred:', error);
+    });
+}
+
+function submitForm() {
+    console.log(document.getElementById('websitename').value);
+    console.log(document.getElementById('country').value);
+    console.log(document.getElementById('websiteurl').value);
+}
+</script>
 {% endblock %}

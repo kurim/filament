@@ -32,6 +32,7 @@ $filament_type = $queryBuilder->execute()->fetchAllAssociative();
 // Render the template
 echo $template->render([
     'basefolder' => $host,
+    'breadcrumb' => $breadcrumb ?? null,
     'target' => $target ?? null,
     'vendors' => $vendors ?? null,
     'filament_type' => $filament_type ?? null,

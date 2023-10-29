@@ -26,6 +26,7 @@ $config = new Configuration();
 // Render the template
 echo $template->render([
     'basefolder' => $host,
+    'breadcrumb' => $breadcrumb ?? null,
     'target' => $target ?? null,
     'data' => $data ?? null,
 ]);

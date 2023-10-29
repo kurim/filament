@@ -10,5 +10,6 @@ $template = $twig->load('home.html.twig');
 // Render the template
 // Render the template
 echo $template->render([
-    'basefolder' => $host
+    'basefolder' => $host,
+    'breadcrumb' => $breadcrumb ?? null,
 ]);

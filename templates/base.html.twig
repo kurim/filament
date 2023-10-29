@@ -19,7 +19,7 @@
 <div class="min-h-full">
 
 {% include "navigation.html.twig" with {'target': target} %}
-{% include "breadcrumb.html.twig" with {'target': target} %}
+{% include "breadcrumb.html.twig" with {'target': target, 'breadcrumb': breadcrumb} %}
 {% block content %}{% endblock %}
 </div>
 </body>

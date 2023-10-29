@@ -3,14 +3,19 @@
 <main>
     <div class="mx-auto max-w-7xl py-6 md:px-6 lg:px-8">
           <div class="bg-white border-gray-300 dark:border-gray-600 dark:bg-slate-700 shadow-md rounded-lg overflow-hidden">
-              <div class="flex">
-                    <div class="w-1/4 hidden md:flex justify-center items-center p-2">
+            <div class="w-full">
+                <div class="min-w-full bg-gray-50 px-6 py-3 dark:bg-slate-600/75 dark:border-slate-50/[0.06] dark:text-red-500">
+                    <h1 class="text-3xl font-semibold"><img src="images/vendors/{{ filament.logo }}" alt="{{ filament.name }}" class="w-28 inline-block align-baseline"> {{ filament.type_name }}</h1>
+                </div>
+                </div>
+                <div class="flex">
+                    <div class="w-1/4 hidden md:flex justify-center items-baseline p-2">
                         <div class="p-3 border rounded-lg">
-                        <img src="images/filaments/{{ filament.filament_image }}" alt="{{ filament.type_name }} {{ filament.color }}" class="w-fit max-h-80 object-cover">
+                        <img src="images/filaments/{{ filament.filament_image }}" alt="{{ filament.type_name }} {{ filament.color }}" class="max-w-80 object-cover">
                         </div>
                     </div>
                     <div class="w-full md:w-3/4 p-6 dark:text-white">
-                        <h1 class="text-3xl font-semibold mb-2"><img src="images/vendors/{{ filament.logo }}" alt="{{ filament.name }}" class="w-28 inline-block align-baseline"> {{ filament.type_name }}</h1>
+                        
                         <h2 class="text-2xl font-semibold mb-2">{{ 'Manufacturer information'|trans }}</h2>
                         <div class="flex items-center space-x-4 mb-4">
                         <table class="min-w-full leading-normal dark:text-slate-300">
@@ -67,35 +72,62 @@
                             </tr>
                         </table>
                         </div>
-                        <div class="flex items-center space-x-4 mb-4">
+                        <div class="flex items-center space-x-2 mb-4">
                             <a href="{{ filament.productlink }}" target="_blank" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">{{ 'Vendor'|trans }} <i class="fa-solid fa-link"></i></a>
                             <a href="images/qrcodes/{{ filament.f_id }}.png" download="{{ filament.f_id }}.png" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600" id="qrcode-download-link">{{ 'Download'|trans }} <i class="fa-solid fa-qrcode"></i></a>
                         </div>
-                        {% if stores != null %}
-                        <h3 class="text-lg font-semibold">{{ 'You can buy this Filament in those Stores'|trans}}</h3>
-                        <div class="flex items-center space-x-4 mb-4">
-                            {% for item in stores %}
-                                {% if item.website == 'Amazon' %}
-                                {% set bgcolor = 'bg-yellow-400 hover:bg-yellow-500' %}
-                                {% else %}
-                                {% set bgcolor = 'bg-blue-400 hover:bg-blue-500' %}
-                                {% endif %}
-                                <a href="{{ item.url }}" target="_blank" class="px-4 py-2 {{ bgcolor }} text-black rounded-md">
-                                {{ item.website }} ({{ item.region }})
-                                {% if item.website == 'Amazon' %}<i class="fa-brands fa-amazon"></i>
-                                {% else %}<i class="fa-solid fa-link"></i>
-                                {% endif %}
-                                </a>
-                                
-                            {% endfor %}
-                        </div>
-                        {% endif %}
-                        {#
-                        <h2 class="text-2xl font-semibold mb-2">Templates (Json)</h2>
-                        <div class="flex items-center space-x-4 mb-4">
-                            <a href="#" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Bambulab <img src="images/bambu.png" class="w-4 h-4 inline-block align-baseline leading-none"></a>                            
-                        </div>
-                        #}
+                        {% if stores is not null and stores|length > 0 %}
+                        <h3 class="text-lg font-semibold">{{ 'You can buy this Filament in those Stores'|trans }} <a href="/add/store?{{filament.f_id}}"><i class="fa-solid fa-plus"></i></a></h3>
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50 dark:bg-slate-800/75">
+                                <tr>
+                                    <th scope="col" class="border dark:border-slate-800/75 dark:text-white px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider w-fit">Country</th>
+                                    <th scope="col" class="border dark:border-slate-800/75 dark:text-white px-2 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider w-full">Store Links</th>
+                                </tr>
+                            </thead>
+                                <tbody>
+                                    {% set prevCountry = null %}
+                                    {% for item in stores %}
+                                        {% if item.website == 'Amazon' %}
+                                            {% set bgcolor = 'bg-yellow-400 hover:bg-yellow-500' %}
+                                        {% else %}
+                                            {% set bgcolor = 'bg-blue-400 hover:bg-blue-500' %}
+                                        {% endif %}
+                                        {% if item.country != prevCountry %}
+                                            {% if prevCountry is not null %}
+                                                </td> <!-- Close the previous country's <td> -->
+                                            </tr>
+                                            {% endif %}
+                                            <tr>
+                                                <td class="border dark:border-slate-800/75 dark:bg-slate-800/75 dark:text-slate-300 px-2 py-1 whitespace-nowrap leading-10">{{ item.countryname }}</td>
+                                                <td class="border dark:border-slate-800/75 dark:bg-slate-800/75 dark:text-slate-300 px-2 py-1 whitespace-nowrap leading-10">
+                                                    <a href="{{ item.url }}" target="_blank" class="px-4 py-2 mr-2 {{ bgcolor }} text-black rounded-md">
+                                                        {{ item.website }}
+                                                        {% if item.website == 'Amazon' %}
+                                                            <i class="fa-brands fa-amazon"></i>
+                                                        {% else %}
+                                                            <i class="fa-solid fa-link"></i>
+                                                        {% endif %}
+                                                    </a>
+                                            {% else %}
+                                                <a href="{{ item.url }}" target="_blank" class="px-4 py-2 mr-2 {{ bgcolor }} text-black rounded-md">
+                                                    {{ item.website }}
+                                                    {% if item.website == 'Amazon' %}
+                                                        <i class="fa-brands fa-amazon"></i>
+                                                    {% else %}
+                                                        <i class="fa-solid fa-link"></i>
+                                                    {% endif %}
+                                                </a>
+                                            {% endif %}
+                                            {% set prevCountry = item.country %}
+                                    {% endfor %}
+                                    </td> <!-- Close the last country's <td> -->
+                                    </tr>
+                                </tbody>
+                        </table>
+                    {% else %}
+                    <h3 class="text-lg font-semibold ">{{ 'Currently no Stores listed'|trans }} <a href="/add/store?{{filament.f_id}}"><i class="fa-solid fa-plus"></i></a></h3>
+                    {% endif %}
                   </div>
               </div>
           </div>

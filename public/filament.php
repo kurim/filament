@@ -41,11 +41,13 @@ if ($queryString !== null) {
         ->setParameter('f_id', $filament_id);
     $data = $queryBuilder->execute()->fetchAssociative();
     $data['colorrgb'] = $helper->hexToRgb($data['colorhex']);
-
+    
+    $language = $helper->getBrowserLanguage();
     $queryBuilder = $connection->createQueryBuilder();
     $queryBuilder
-        ->select('*')
-        ->from('filament_urls')
+        ->select('f.*, ' . ($language === 'de' ? 'c.name_de' : 'c.name') . ' AS countryname')
+        ->from('filament_urls', 'f')
+        ->leftJoin('f', 'countries', 'c', 'f.country = c.code') // 'v' is an alias for the 'vendors' table
         ->where('f_id = :f_id')
         ->setParameter('f_id', $filament_id);
     $stores = $queryBuilder->execute()->fetchAllAssociative();
@@ -56,6 +58,7 @@ if ($queryString !== null) {
 // Render the template
 echo $template->render([
     'basefolder' => $host,
+    'breadcrumb' => $breadcrumb ?? null,
     'target' => $target ?? null,
     'filament' => $data ?? null,
     'stores' => $stores ?? null

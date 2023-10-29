@@ -30,10 +30,25 @@ $root = __DIR__ ;
 if($path == '/') {
     $path = '/home';
 }
+$queryString = $request->getQueryString();
+if(!empty($queryString)) {
+    $parameter = explode('&', $queryString)[0];
+    $para = rtrim($parameter, '=');
+}
 
 if(str_contains($path, 'api')) {
     require $root . '/'.$path.'.php';
 } else {
+    if(str_contains($target, '/')) {
+        $breadcrumb = explode('/', $target);
+    } else {
+        if (empty($breadcrumb)) {
+            $breadcrumb = array($target);
+        } else {
+            array_push($breadcrumb, $target);
+        }
+    }
+
     if ($filesystem->exists('public'.$path.'.php')) {
         require $root . '/public'.$path.'.php';
 

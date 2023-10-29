@@ -39,17 +39,33 @@ $queryBuilder
     ->where('f.f_id = :f_id')
     ->setParameter('f_id', $filament_id);
 $data = $queryBuilder->execute()->fetchAssociative();
+
+$language = $helper->getBrowserLanguage();
 $queryBuilder = $connection->createQueryBuilder();
+    $queryBuilder
+        ->select('f.*, ' . ($language === 'de' ? 'c.name_de' : 'c.name') . ' AS countryname')
+        ->from('filament_urls', 'f')
+        ->leftJoin('f', 'countries', 'c', 'f.country = c.code') // 'v' is an alias for the 'vendors' table
+        ->where('f_id = :f_id')
+        ->setParameter('f_id', $filament_id);
+    $stores = $queryBuilder->execute()->fetchAllAssociative();
+
+$queryBuilder = $connection->createQueryBuilder();
+$language = $helper->getBrowserLanguage();
 $queryBuilder
-    ->select('*')
-    ->from('filament_urls')
-    ->where('f_id = :f_id')
-    ->setParameter('f_id', $filament_id);
-$stores = $queryBuilder->execute()->fetchAllAssociative();
+    ->select('code, ' . ($language === 'de' ? 'name_de' : 'name') . ' AS selected_name')
+    ->from('continents')
+    ->orderBy('selected_name', 'ASC');
+
+$countries = $queryBuilder->execute()->fetchAllAssociative();
+
 // Render the template
 echo $template->render([
     'basefolder' => $host,
+    'breadcrumb' => $breadcrumb ?? null,
     'target' => $target ?? null,
     'filament' => $data ?? null,
-    'stores' => $stores ?? null
+    'stores' => $stores ?? null,
+    'language' => $language ?? null,
+    'countries' => $countries ?? null
 ]);

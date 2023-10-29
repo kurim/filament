@@ -2,8 +2,10 @@
 Filament Info: Filament Info
 filamente: Filamente
 filament: Filament
+add: hinzufügen
+store: Shops
 add/filament: Filament hinzufügen
-add/store: Shop hinzufügen
+add/store: Shops
 add/vendor: Hersteller hinzufügen
 # Filament / Filamente / Add Filament
 Manufacturer information: Herstellerinformationen
@@ -31,3 +33,11 @@ Product Link (Vendor): Produkt Link (Hersteller)
 Submit: Senden
 Filament added: Filament hinzugefügt
 You can buy this Filament in those Stores: Du kannst dieses Filament in diesen Shops kaufen
+Currently no Stores listed: Derzeit keine Shops aufgeführt
+# Store
+add_store: 'Shop hinzufügen für name color type_name'
+Websitename: Webseitenname
+Websiteurl: Webseitenadresse
+Regions: Regionen
+Country: Land
+buy_filament: 'Du kannst name color type_name in diesen Shops kaufen'

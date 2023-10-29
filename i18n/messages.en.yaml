@@ -3,7 +3,7 @@ Filament Info: Filament Info
 filamente: Filaments
 filament: Filament
 add/filament: Add filament
-add/store: Add Store
+add/store: Stores
 add/vendor: Add Vendor
 # Filament / Filamente / Add Filament
 Manufacturer information: Manufacturer information
@@ -31,3 +31,12 @@ Product Link (Vendor): Product Link (Vendor)
 Submit: Submit
 Filament added: Filament added
 You can buy this Filament in those Stores: You can buy this Filament in those Stores
+Currently no Stores listed: Currently no Stores listed
+
+# Store
+add_store: 'Shop Store for name color type_name'
+Websitename: Websitename
+Websiteurl: Websiteurl
+Regions: Regions
+Country: Country
+buy_filament: 'You can buy {{ name }} {{ color }} {{ type_name }} in those Stores'
