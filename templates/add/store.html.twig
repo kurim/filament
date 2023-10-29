@@ -127,9 +127,7 @@ async function countries() {
         if (response.ok) {
             return response.json(); // Parse the response JSON data
             // Form submission was successful
-
-            console.log('Form submitted successfully');
-            
+            console.log('Form submitted successfully');           
         } else {
             // Form submission failed
             console.error('Form submission failed');
@@ -151,9 +149,10 @@ async function countries() {
 }
 
 function submitForm() {
-    console.log(document.getElementById('websitename').value);
-    console.log(document.getElementById('country').value);
-    console.log(document.getElementById('websiteurl').value);
+    let websitename = document.getElementById('websitename').value; 
+    let regions = document.getElementById('regions').value;
+    let country = document.getElementById('country').value;
+    let websiteurl = document.getElementById('websiteurl').value;
 }
 </script>
 {% endblock %}
