@@ -38,7 +38,7 @@ $queryBuilder
     ->leftJoin('f', 'filament_type', 't', 'f.type = t.id') // 't' is an alias for the 'filament_type' table
     ->where('f.f_id = :f_id')
     ->setParameter('f_id', $filament_id);
-$data = $queryBuilder->execute()->fetchAssociative();
+$data = $queryBuilder->executeQuery()->fetchAssociative();
 
 $language = $helper->getBrowserLanguage();
 $queryBuilder = $connection->createQueryBuilder();
@@ -48,7 +48,7 @@ $queryBuilder = $connection->createQueryBuilder();
         ->leftJoin('f', 'countries', 'c', 'f.country = c.code') // 'v' is an alias for the 'vendors' table
         ->where('f_id = :f_id')
         ->setParameter('f_id', $filament_id);
-    $stores = $queryBuilder->execute()->fetchAllAssociative();
+    $stores = $queryBuilder->executeQuery()->fetchAllAssociative();
 
 $queryBuilder = $connection->createQueryBuilder();
 $language = $helper->getBrowserLanguage();
@@ -57,7 +57,7 @@ $queryBuilder
     ->from('continents')
     ->orderBy('selected_name', 'ASC');
 
-$countries = $queryBuilder->execute()->fetchAllAssociative();
+$countries = $queryBuilder->executeQuery()->fetchAllAssociative();
 
 // Render the template
 echo $template->render([

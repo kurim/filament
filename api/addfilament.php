@@ -32,7 +32,9 @@ if ($request->isMethod('POST')) {
         // Define the upload directory (make sure it exists)
         $uploadDirectory = 'images/filaments/';
         // Create a unique filename for the uploaded file
-        $filename = $filament_id . '_' . $file->getClientOriginalName();
+        $fileExtension = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
+        
+        $filename = $filament_id . '.' . $fileExtension;
 
         // Move the uploaded file to the destination path
         $file->move($uploadDirectory, $filename);
@@ -74,7 +76,7 @@ if ($request->isMethod('POST')) {
             'filament_type' => $request->request->get('filament_type'),
             'colorname' => $request->request->get('colorname'),
             'colorhex' => $fullColor,
-            'kfactor' => $request->request->get('kfactor'),
+            // 'kfactor' => $request->request->get('kfactor'),
             'diameter' => $request->request->get('diameter'),
             'diameter_variance' => $request->request->get('diameter_variance'),
             'nozzletemp_low' => $request->request->get('nozzletemp_low'),
@@ -86,7 +88,7 @@ if ($request->isMethod('POST')) {
             'printspeed_low' => $request->request->get('printspeed_low'),
             'printspeed_high' => $request->request->get('printspeed_high'),
             'filament_image' => $filename,
-            'productlink' => $request->request->get('productlink'),
+            'productlink' => empty($request->request->get('productlink')) ? $request->request->get('productlink') : '',
         ];
 
         // Create a query builder instance
@@ -100,7 +102,7 @@ if ($request->isMethod('POST')) {
              'type' => ':filament_type',
              'color' => ':colorname',
              'colorhex' => ':colorhex',
-             'kfactor' => ':kfactor',
+             //'kfactor' => ':kfactor',
              'diameter' => ':diameter',
              'diameter_variance' => ':diameter_variance',
              'nozzletemp_low' => ':nozzletemp_low',
@@ -118,7 +120,7 @@ if ($request->isMethod('POST')) {
         // Bind the parameters
         $qb->setParameters($data);
 
-        $qb->execute();
+        $qb->executeQuery();
         // Commit the database transaction
         $connection->commit();
         

@@ -9,6 +9,7 @@ add/store: Shops
 add/vendor: Hersteller hinzufügen
 # Filament / Filamente / Add Filament
 Manufacturer information: Herstellerinformationen
+Filamentprofiles: Filament Profile
 Color: Farbe
 Diameter: Durchmesser
 Diameter deviation: Durchmesserabweichung
@@ -19,8 +20,9 @@ Speed: Geschwindigkeit
 Manufacturer's website: Herstellerseite
 Stores: Shops
 Amazon: Amazon
-Download: Herunterladen
+QRDownload: QR Code herunterladen
 Vendor: Hersteller
+Productwebsite: Produkt Webseite
 Type: Materialart
 Color Hexvalue: Hexwert der Farbe
 K-Factor: K-Faktor
@@ -32,7 +34,7 @@ Select an Image: Bild auswählen
 Product Link (Vendor): Produkt Link (Hersteller)
 Submit: Senden
 Filament added: Filament hinzugefügt
-You can buy this Filament in those Stores: Du kannst dieses Filament in diesen Shops kaufen
+You can buy this Filament in those Stores: Du kannst dieses Filament bei diesen Onlineshops kaufen
 Currently no Stores listed: Derzeit keine Shops aufgeführt
 # Store
 add_store: 'Shop hinzufügen für name color type_name'
@@ -40,4 +42,4 @@ Websitename: Webseitenname
 Websiteurl: Webseitenadresse
 Regions: Regionen
 Country: Land
-buy_filament: 'Du kannst name color type_name in diesen Shops kaufen'
+buy_filament: 'Du kannst name color type_name bei diesen Onlineshops kaufen'
