@@ -10,11 +10,19 @@ use Symfony\Component\HttpFoundation\Request;
 
 class Helper {
 
-    public function escape($input) {
+    /**
+    * Escape output by using htmlspecialchars
+    *
+    * @param string $input Input parameter
+    * @return void
+    */
+    public function escape($input)
+    {
         return htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
     }
     
-    public function generateUniqueRandomCode($length = 11) {
+    public function generateUniqueRandomCode($length = 11)
+    {
         $config = new Configuration();
         $connectionParams = require 'config/db-config.php';
         $connection = DriverManager::getConnection($connectionParams, $config);
@@ -70,7 +78,8 @@ class Helper {
         return $primaryLanguage;
     }
 
-    function hexToRgb($hex) {
+    function hexToRgb($hex)
+    {
         // Remove the hash symbol if it's present
         $hex = ltrim($hex, '#');
     
