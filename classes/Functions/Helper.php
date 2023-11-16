@@ -10,6 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 
 class Helper {
 
+    public function escape($input) {
+        return htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
+    }
+    
     public function generateUniqueRandomCode($length = 11) {
         $config = new Configuration();
         $connectionParams = require 'config/db-config.php';

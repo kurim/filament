@@ -39,7 +39,7 @@ if ($queryString !== null) {
         ->leftJoin('f', 'filament_type', 't', 'f.type = t.id') // 'v' is an alias for the 'vendors' table
         ->where('f.f_id = :f_id')
         ->setParameter('f_id', $filament_id);
-    $data = $queryBuilder->execute()->fetchAssociative();
+    $data = $queryBuilder->executeQuery()->fetchAssociative();
     $data['colorrgb'] = $helper->hexToRgb($data['colorhex']);
     
     $language = $helper->getBrowserLanguage();
@@ -50,14 +50,14 @@ if ($queryString !== null) {
         ->leftJoin('f', 'countries', 'c', 'f.country = c.code') // 'v' is an alias for the 'vendors' table
         ->where('f_id = :f_id')
         ->setParameter('f_id', $filament_id);
-    $stores = $queryBuilder->execute()->fetchAllAssociative();
+    $stores = $queryBuilder->executeQuery()->fetchAllAssociative();
 } else {
     $template = $twig->load('404.html.twig');
 }
 
 // Render the template
 echo $template->render([
-    'basefolder' => $host,
+    'basefolder' => $helper->escape($host),
     'breadcrumb' => $breadcrumb ?? null,
     'target' => $target ?? null,
     'filament' => $data ?? null,

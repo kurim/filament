@@ -11,6 +11,7 @@ add/vendor: Hersteller hinzufügen
 Manufacturer information: Herstellerinformationen
 Filamentprofiles: Filament Profile
 Color: Farbe
+Colorfamily: Farbfamilie
 Diameter: Durchmesser
 Diameter deviation: Durchmesserabweichung
 Nozzle temperature: Hotend Temperatur

@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Templating\EscapeEscaper;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 use Functions\Helper;
@@ -51,7 +52,6 @@ if(str_contains($path, 'api')) {
 
     if ($filesystem->exists('public'.$path.'.php')) {
         require $root . '/public'.$path.'.php';
-
     } else {
         require $root . '/public/404.php';
     }

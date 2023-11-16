@@ -1,45 +1,108 @@
 {% extends 'base.html.twig' %}
 {% block content %}
-
   <main>
-    <div class="mx-auto max-w-7xl py-6 md:px-6 lg:px-8">
-        <div class="bg-white shadow-md rounded-lg overflow-hidden">
-          <div class="w-full">
-            <table class="min-w-full divide-y divide-gray-200">
-              <thead class="bg-gray-50">
-                <tr>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    {{ 'Vendor'|trans }}
-                  </th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    {{ 'Type'|trans }}
-                  </th>
-                  <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    {{ 'Color'|trans }}
-                  </th>
-                </tr>
-              </thead>
-              <tbody class="bg-white divide-y divide-gray-200">
+    <div class="max-w-full mx-auto px-4 sm:px-6 md:px-8">
+      <div class="hidden lg:block fixed z-20 inset-0 top-[3.8125rem] right-auto w-[19rem] pb-10 px-2 overflow-y-auto">
+        <div class="w-xs py-3 lg:pl-4">
+          <div class="bg-white shadow-md h-fit p-0 dark:bg-slate-600/75">
+            <div class="h-10 min-w2 full flex bg-gray-100 px-2 dark:bg-black dark:border-slate-50/[0.06] dark:text-red-500">
+              <div class="my-1 py-1 align-middle"><h1 class="text-sm font-medium uppercase">{{ 'Filter'|trans }}</h1></div>
+            </div>
+            <div class="h-60 px-2">
+              <div class="my-1 py-1 align-middle  border-b"><h3 class="text-xs font-medium">{{ 'Type'|trans }}</h3></div>
+              <div class="h-52 overflow-y-auto overflow-x-hidden">
+                <ul class="text-sm">
+                  {% for item in material %}
+                    {% if item.filament_count != 0 %}
+                    <li>
+                      <input type="checkbox" id="type-{{item.id}}" class="form-checkbox h-4 w-4 text-blue-500">
+                      <label for="type-{{item.id}}">{{item.type_name}} ({{item.filament_count}})</label>
+                    </li> 
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+            <div class="h-60 px-2">
+              <div class="my-1 py-1 align-middle border-b"><h3 class="text-xs font-medium">{{ 'Color'|trans }}</h3></div>
+              <div class="h-52 overflow-y-auto overflow-x-hidden">
+                <ul class="text-sm">
+                  {% for item in color %}
+                  {% if item.color_count != 0 %}
+                    <li>
+                      <input type="checkbox" id="color-{{item.c_id}}" class="form-checkbox h-4 w-4 text-blue-500">
+                      <label for="color-{{item.c_id}}">{{item.basecolor}} ({{item.color_count}})</label>
+                    </li> 
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+            <div class="h-60 px-2">
+              <div class="my-1 py-1 align-middle  border-b"><h3 class="text-xs font-medium">{{ 'Vendor'|trans }}</h3></div>
+              <div class="h-52 overflow-y-auto overflow-x-hidden">
+                <ul class="text-sm">
+                  {% for item in vendors %}
+                    {% if item.vendor_count != 0 %}
+                    <li>
+                      <input type="checkbox" id="vendor-{{item.v_id}}" class="form-checkbox h-4 w-4 text-blue-500">
+                      <label for="vendor-{{item.v_id}}">{{item.name}} ({{item.vendor_count}})</label>
+                    </li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="lg:pl-[19.5rem]">
+        <div class="max-w-full mx-auto pt-2 xl:max-w-none xl:ml-0">
+        <div class="bg-white shadow-md mb-4 dark:bg-slate-600/75 dark:text-white">
+          <table id="sortable-table" class="min-w-full border-collapse">
+          <thead class="bg-gray-50 sticky">
+            <tr class="sticky">
+              <th scope="col" class="bg-gray-50 px-2 dark:bg-black dark:border-slate-50/[0.06] dark:text-red-500 py-2 text-left text-xs font-medium uppercase top-0 sticky z-10">
+                {{ 'Vendor'|trans }}
+              </th>
+              <th scope="col" class="bg-gray-50 px-2 dark:bg-black dark:border-slate-50/[0.06] dark:text-red-500 py-2 text-left text-xs font-medium uppercase top-0 sticky z-10">
+                {{ 'Type'|trans }}
+              </th>
+              <th scope="col" class="hidden md:table-cell dark:bg-black dark:border-slate-50/[0.06] dark:text-red-500 bg-gray-50 px-2 py-2 text-left text-xs font-medium uppercase top-0 sticky z-10">
+                {{ 'Colorfamily'|trans }}
+              </th>
+              <th scope="col" class="bg-gray-50 dark:bg-black dark:border-slate-50/[0.06] dark:text-red-500 px-2 py-2 text-left text-xs font-medium uppercase top-0 sticky z-10">
+                {{ 'Color'|trans }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
                 {% for filament in data %}
-                <tr class="hover:bg-gray-100 cursor-pointer" onclick="window.location='/filament?{{ filament.f_id }}';">
-                  <td class="px-6 py-4 whitespace-nowrap">
+                <tr class="hover:bg-gray-100 cursor-pointer border-b border-gray-200" onclick="window.location='/filament?{{ filament.f_id }}';">
+                  <td class="px-2 py-2 md:whitespace-nowrap">
                     <!-- Vendor Name -->
-                    <div class="text-sm text-gray-900">
+                    <div class="text-sm">
                       {{ filament.name }}
                     </div>
                   </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
+                  <td class="px-2 py-2 md:whitespace-nowrap">
                     <!-- Type Name -->
-                    <div class="text-sm text-gray-900">
+                    <div class="text-sm">
                       {{ filament.type_name }}
                     </div>
                   </td>
-                  <td class="px-6 py-4 whitespace-nowrap">
+                  <td class="hidden md:table-cell px-2 py-2 whitespace-nowrap">
+                    <!-- Type Name -->
+                    <div class="text-sm">
+                      {{ filament.basecolor }}
+                    </div>
+                  </td>
+                  <td class="px-2 py-2 md:whitespace-nowrap">
                     <!-- Color -->
-                    <div class="text-sm text-gray-900 inline-table">
+                    <div class="text-sm inline-table">
                       <span id="colorPreview" class="bg-[#{{ filament.colorhex }}] inline-block align-middle ring-2 ring-gray-500 ring-offset-1 rounded-full w-4 h-4 ml-2 -mt-1"></span> 
                     </div>
-                    <div class="text-sm text-gray-900 inline-table">
+                    <div class="text-sm inline-table ml-1">
                       {{ filament.color }}
                     </div>
                   </td>
@@ -48,8 +111,10 @@
                 <!-- Repeat the above row structure for each data entry -->
               </tbody>
             </table>
-          </div>
+            </div>
         </div>
+      </div>
+      <!-- Your content -->
     </div>
   </main>
 {% endblock %}

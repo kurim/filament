@@ -61,7 +61,7 @@ $countries = $queryBuilder->executeQuery()->fetchAllAssociative();
 
 // Render the template
 echo $template->render([
-    'basefolder' => $host,
+    'basefolder' => $helper->escape($host),
     'breadcrumb' => $breadcrumb ?? null,
     'target' => $target ?? null,
     'filament' => $data ?? null,
