@@ -26,8 +26,8 @@ $config = new Configuration();
 
 // Render the template
 echo $template->render([
-    'basefolder' => $helper->escape($host), // Using escape() to escape output
-    'breadcrumb' => $breadcrumb ?? null,
-    'target' => $target ?? null,
-    'data' => $data ?? null,
+    'basefolder'    => htmlspecialchars($host, ENT_QUOTES, 'UTF-8'), // Using escape() to escape output
+    'breadcrumb'    => $breadcrumb ?? null,
+    'target'        => $target ?? null,
+    'data'          => $data ?? null,
 ]);
