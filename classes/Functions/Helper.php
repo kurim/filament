@@ -47,7 +47,7 @@ class Helper {
                 ->where('f_id = :f_id')
                 ->setParameter('f_id', $code);
             // Check if the generated code already exists in the database
-            $count = $queryBuilder->execute()->fetchOne();
+            $count = $queryBuilder->executeQuery()->fetchOne();
             if ($count > 0) {
                 $codeExistsInDatabase = true; // Replace with your database query
             } else {
