@@ -1,4 +1,5 @@
 <?php
+
 require 'vendor/autoload.php'; // Adjust the path to the autoloader as needed
 
 use Symfony\Component\HttpFoundation\Request;

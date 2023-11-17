@@ -1,4 +1,5 @@
 <?php
+
 require 'vendor/autoload.php'; // Adjust the path to the autoloader as needed
 
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +23,7 @@ if ($request->isMethod('POST')) {
             $filament_id = $helper->generateUniqueRandomCode();
             // Create a database connection
             $config = new Configuration();
-            $connectionParams = require 'config/db-config.php';
+            $connectionParams = include 'config/db-config.php';
             $connection = DriverManager::getConnection($connectionParams, $config);
             $connection->beginTransaction();
 
@@ -31,23 +32,23 @@ if ($request->isMethod('POST')) {
             // Create a unique filename for the uploaded file
             $fileExtension = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
 
-            $filename = $filament_id.'.'.$fileExtension;
+            $filename = $filament_id . '.' . $fileExtension;
 
             // Move the uploaded file to the destination path
             $file->move($uploadDirectory, $filename);
 
-            $filePath = 'images/qrcodes/'.$filament_id.'png';
+            $filePath = 'images/qrcodes/' . $filament_id . 'png';
             if (!$filesystem->exists($filePath)) {
                 // Create QR code
                 $result = Builder::create()
                     ->writer(new PngWriter())
-                    ->data('https://filament.kurim.de/filament?'.$filament_id)
+                    ->data('https://filament.kurim.de/filament?' . $filament_id)
                     ->encoding(new Encoding('UTF-8'))
                     ->errorCorrectionLevel(ErrorCorrectionLevel::High)
                     ->size(1000)
                     ->validateResult(false)
                     ->build();
-                $result->saveToFile('/home/kurim/public_html/filament.kurim.de/src/images/qrcodes/'.$filament_id.'.png');
+                $result->saveToFile('/home/kurim/public_html/filament.kurim.de/src/images/qrcodes/' . $filament_id . '.png');
             }
 
             $shorthandColor = ltrim($request->request->get('colorhex'), '#');
@@ -57,7 +58,7 @@ if ($request->isMethod('POST')) {
             // The color code is already in the full 6-character format
             // Invalid color code
             if (strlen($shorthandColor) == 3) {
-                $fullColor = $shorthandColor[0].$shorthandColor[0].$shorthandColor[1].$shorthandColor[1].$shorthandColor[2].$shorthandColor[2];
+                $fullColor = $shorthandColor[0] . $shorthandColor[0] . $shorthandColor[1] . $shorthandColor[1] . $shorthandColor[2] . $shorthandColor[2];
             } elseif (strlen($shorthandColor) == 6) {
                 $fullColor = $shorthandColor;
             } else {
@@ -93,7 +94,8 @@ if ($request->isMethod('POST')) {
             // Build the SQL INSERT statement with placeholders and named parameters
             // Replace with your actual table name
             $qb->insert('filament')
-                ->values([
+                ->values(
+                    [
                     'f_id' => ':f_id',
                     'vendor' => ':vendor',
                     'type' => ':filament_type',
@@ -111,7 +113,8 @@ if ($request->isMethod('POST')) {
                     'printspeed_high' => ':printspeed_high',
                     'filament_image' => ':filament_image',
                     'productlink' => ':productlink',
-                ]);
+                    ]
+                );
 
             // Bind the parameters
             $qb->setParameters($data);

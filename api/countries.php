@@ -1,4 +1,5 @@
 <?php
+
 require 'vendor/autoload.php'; // Adjust the path to the autoloader as needed
 
 use Symfony\Component\HttpFoundation\Request;
@@ -24,10 +25,9 @@ if ($request->isMethod('POST')) {
         ->setParameter('continent_code', $continent_code)
         ->orderBy('selected_name', 'ASC');
     
-    $countries = $queryBuilder->execute()->fetchAllAssociative();
+    $countries = $queryBuilder->executeQuery()->fetchAllAssociative();
 
     $response = new Response(json_encode($countries), Response::HTTP_OK);
-
 } else {
     // Invalid request method
     $response = new Response('Invalid request method', Response::HTTP_METHOD_NOT_ALLOWED);
