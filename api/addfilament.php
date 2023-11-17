@@ -31,67 +31,68 @@ if ($request->isMethod('POST')) {
             // Create a unique filename for the uploaded file
             $fileExtension = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
 
-            $filename = $filament_id . '.' . $fileExtension;
+            $filename = $filament_id.'.'.$fileExtension;
 
             // Move the uploaded file to the destination path
             $file->move($uploadDirectory, $filename);
 
-
-            $filePath = 'images/qrcodes/' . $filament_id . 'png';
+            $filePath = 'images/qrcodes/'.$filament_id.'png';
             if (!$filesystem->exists($filePath)) {
                 // Create QR code
                 $result = Builder::create()
                     ->writer(new PngWriter())
-                    ->data('https://filament.kurim.de/filament?' . $filament_id)
+                    ->data('https://filament.kurim.de/filament?'.$filament_id)
                     ->encoding(new Encoding('UTF-8'))
                     ->errorCorrectionLevel(ErrorCorrectionLevel::High)
                     ->size(1000)
                     ->validateResult(false)
                     ->build();
-                $result->saveToFile('/home/kurim/public_html/filament.kurim.de/src/images/qrcodes/' . $filament_id . '.png');
+                $result->saveToFile('/home/kurim/public_html/filament.kurim.de/src/images/qrcodes/'.$filament_id.'.png');
             }
 
             $shorthandColor = ltrim($request->request->get('colorhex'), '#');
 
             // Check the length of the shorthand color code
+            // Expand shorthand color to 6 characters
+            // The color code is already in the full 6-character format
+            // Invalid color code
             if (strlen($shorthandColor) == 3) {
-                // Expand shorthand color to 6 characters
-                $fullColor = $shorthandColor[0] . $shorthandColor[0] . $shorthandColor[1] . $shorthandColor[1] . $shorthandColor[2] . $shorthandColor[2];
+                $fullColor = $shorthandColor[0].$shorthandColor[0].$shorthandColor[1].$shorthandColor[1].$shorthandColor[2].$shorthandColor[2];
             } elseif (strlen($shorthandColor) == 6) {
-                // The color code is already in the full 6-character format
                 $fullColor = $shorthandColor;
             } else {
-                // Invalid color code
                 $fullColor = false;
             }
 
             // Insert data into your database table
             // Define the data to be inserted
+            $productlink = empty($request->request->get('productlink')) ? $request->request->get('productlink') : '';
             $data = [
-                'f_id' => $filament_id,
-                'vendor' => $request->request->get('vendor'),
-                'filament_type' => $request->request->get('filament_type'),
-                'colorname' => $request->request->get('colorname'),
-                'colorhex' => $fullColor,
-                'diameter' => $request->request->get('diameter'),
-                'diameter_variance' => $request->request->get('diameter_variance'),
-                'nozzletemp_low' => $request->request->get('nozzletemp_low'),
-                'nozzletemp_high' => $request->request->get('nozzletemp_high'),
-                'nozzletemp_sug' => $request->request->get('nozzletemp_sug'),
-                'platetemp_low' => $request->request->get('platetemp_low'),
-                'platetemp_high' => $request->request->get('platetemp_high'),
-                'platetemp_sug' => $request->request->get('platetemp_sug'),
-                'printspeed_low' => $request->request->get('printspeed_low'),
-                'printspeed_high' => $request->request->get('printspeed_high'),
-                'filament_image' => $filename,
-                'productlink' => empty($request->request->get('productlink')) ? $request->request->get('productlink') : '',
+                    'f_id' => $filament_id,
+                    'vendor' => $request->request->get('vendor'),
+                    'filament_type' => $request->request->get('filament_type'),
+                    'colorname' => $request->request->get('colorname'),
+                    'colorhex' => $fullColor,
+                    'diameter' => $request->request->get('diameter'),
+                    'diameter_variance' => $request->request->get('diameter_variance'),
+                    'nozzletemp_low' => $request->request->get('nozzletemp_low'),
+                    'nozzletemp_high' => $request->request->get('nozzletemp_high'),
+                    'nozzletemp_sug' => $request->request->get('nozzletemp_sug'),
+                    'platetemp_low' => $request->request->get('platetemp_low'),
+                    'platetemp_high' => $request->request->get('platetemp_high'),
+                    'platetemp_sug' => $request->request->get('platetemp_sug'),
+                    'printspeed_low' => $request->request->get('printspeed_low'),
+                    'printspeed_high' => $request->request->get('printspeed_high'),
+                    'filament_image' => $filename,
+                    'productlink' => $productlink,
             ];
 
             // Create a query builder instance
             $qb = $connection->createQueryBuilder();
 
             // Build the SQL INSERT statement with placeholders and named parameters
-            $qb->insert('filament') // Replace with your actual table name
+            // Replace with your actual table name
+            $qb->insert('filament')
                 ->values([
                     'f_id' => ':f_id',
                     'vendor' => ':vendor',
