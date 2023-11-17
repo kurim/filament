@@ -3,6 +3,7 @@
 use Functions\Helper;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
+
 // Load the Twig template
 $loader = new \Twig\Loader\FilesystemLoader('templates');
 $twig = new \Twig\Environment($loader);

@@ -1,4 +1,5 @@
 <?php
+
 require "vendor/autoload.php";
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
@@ -41,7 +42,7 @@ if ($queryString !== null) {
         ->setParameter('f_id', $filament_id);
     $data = $queryBuilder->executeQuery()->fetchAssociative();
     $data['colorrgb'] = $helper->hexToRgb($data['colorhex']);
-    
+
     $language = $helper->getBrowserLanguage();
     $queryBuilder = $connection->createQueryBuilder();
     $queryBuilder

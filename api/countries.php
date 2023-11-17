@@ -24,7 +24,7 @@ if ($request->isMethod('POST')) {
         ->where('continent_code = :continent_code')
         ->setParameter('continent_code', $continent_code)
         ->orderBy('selected_name', 'ASC');
-    
+
     $countries = $queryBuilder->executeQuery()->fetchAllAssociative();
 
     $response = new Response(json_encode($countries), Response::HTTP_OK);
