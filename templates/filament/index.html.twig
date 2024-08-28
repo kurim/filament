@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Filament index{% endblock %}
+
+{% block body %}
+    <h1>Filament index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Qrcode</th>
+                <th>Color</th>
+                <th>Colorhex</th>
+                <th>Specs</th>
+                <th>Image</th>
+                <th>Link</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for filament in filaments %}
+            <tr>
+                <td>{{ filament.id }}</td>
+                <td>{{ filament.qrcode }}</td>
+                <td>{{ filament.color }}</td>
+                <td>{{ filament.colorhex }}</td>
+                <td>{{ filament.specs ? filament.specs|json_encode : '' }}</td>
+                <td>{{ filament.image }}</td>
+                <td>{{ filament.link }}</td>
+                <td>
+                    <a href="{{ path('app_filament_show', {'id': filament.id}) }}">show</a>
+                    <a href="{{ path('app_filament_edit', {'id': filament.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_filament_new') }}">Create new</a>
+{% endblock %}

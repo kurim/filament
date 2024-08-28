@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Filament{% endblock %}
+
+{% block body %}
+    <h1>Create new Filament</h1>
+
+    {{ include('filament/_form.html.twig') }}
+
+    <a href="{{ path('app_filament_index') }}">back to list</a>
+{% endblock %}
