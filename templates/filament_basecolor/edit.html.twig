@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit FilamentBasecolor{% endblock %}
+
+{% block body %}
+    <h1>Edit FilamentBasecolor</h1>
+
+    {{ include('filament_basecolor/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_filament_basecolor_index') }}">back to list</a>
+
+    {{ include('filament_basecolor/_delete_form.html.twig') }}
+{% endblock %}

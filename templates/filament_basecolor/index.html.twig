@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FilamentBasecolor index{% endblock %}
+
+{% block body %}
+    <h1>FilamentBasecolor index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Color</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for filament_basecolor in filament_basecolors %}
+            <tr>
+                <td>{{ filament_basecolor.id }}</td>
+                <td>{{ filament_basecolor.color }}</td>
+                <td>
+                    <a href="{{ path('app_filament_basecolor_show', {'id': filament_basecolor.id}) }}">show</a>
+                    <a href="{{ path('app_filament_basecolor_edit', {'id': filament_basecolor.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_filament_basecolor_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FilamentVendor index{% endblock %}
+
+{% block body %}
+    <h1>FilamentVendor index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Image</th>
+                <th>Link</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for filament_vendor in filament_vendors %}
+            <tr>
+                <td>{{ filament_vendor.id }}</td>
+                <td>{{ filament_vendor.name }}</td>
+                <td>{{ filament_vendor.image }}</td>
+                <td>{{ filament_vendor.link }}</td>
+                <td>
+                    <a href="{{ path('app_filament_vendor_show', {'id': filament_vendor.id}) }}">show</a>
+                    <a href="{{ path('app_filament_vendor_edit', {'id': filament_vendor.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_filament_vendor_new') }}">Create new</a>
+{% endblock %}

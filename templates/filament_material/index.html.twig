@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FilamentMaterial index{% endblock %}
+
+{% block body %}
+    <h1>FilamentMaterial index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Material_name</th>
+                <th>Material_description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for filament_material in filament_materials %}
+            <tr>
+                <td>{{ filament_material.id }}</td>
+                <td>{{ filament_material.materialName }}</td>
+                <td>{{ filament_material.materialDescription }}</td>
+                <td>
+                    <a href="{{ path('app_filament_material_show', {'id': filament_material.id}) }}">show</a>
+                    <a href="{{ path('app_filament_material_edit', {'id': filament_material.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_filament_material_new') }}">Create new</a>
+{% endblock %}

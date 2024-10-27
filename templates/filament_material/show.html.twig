@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FilamentMaterial{% endblock %}
+
+{% block body %}
+    <h1>FilamentMaterial</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ filament_material.id }}</td>
+            </tr>
+            <tr>
+                <th>Material_name</th>
+                <td>{{ filament_material.materialName }}</td>
+            </tr>
+            <tr>
+                <th>Material_description</th>
+                <td>{{ filament_material.materialDescription }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_filament_material_index') }}">back to list</a>
+
+    <a href="{{ path('app_filament_material_edit', {'id': filament_material.id}) }}">edit</a>
+
+    {{ include('filament_material/_delete_form.html.twig') }}
+{% endblock %}

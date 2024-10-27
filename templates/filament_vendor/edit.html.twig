@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit FilamentVendor{% endblock %}
+
+{% block body %}
+    <h1>Edit FilamentVendor</h1>
+
+    {{ include('filament_vendor/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_filament_vendor_index') }}">back to list</a>
+
+    {{ include('filament_vendor/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FilamentVendor{% endblock %}
+
+{% block body %}
+    <h1>FilamentVendor</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ filament_vendor.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ filament_vendor.name }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td>{{ filament_vendor.image }}</td>
+            </tr>
+            <tr>
+                <th>Link</th>
+                <td>{{ filament_vendor.link }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_filament_vendor_index') }}">back to list</a>
+
+    <a href="{{ path('app_filament_vendor_edit', {'id': filament_vendor.id}) }}">edit</a>
+
+    {{ include('filament_vendor/_delete_form.html.twig') }}
+{% endblock %}

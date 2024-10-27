@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New FilamentVendor{% endblock %}
+
+{% block body %}
+    <h1>Create new FilamentVendor</h1>
+
+    {{ include('filament_vendor/_form.html.twig') }}
+
+    <a href="{{ path('app_filament_vendor_index') }}">back to list</a>
+{% endblock %}

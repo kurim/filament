@@ -19,6 +19,9 @@ module.exports = {
         },
       },
     },
+    backgroundImage: {
+      "gradient-x-blue-500": "linear-gradient(90deg, #0000FF, #00FFFF)",
+    },
   },
   plugins: [
     require('@tailwindcss/typography'),

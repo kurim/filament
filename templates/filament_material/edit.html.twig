@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit FilamentMaterial{% endblock %}
+
+{% block body %}
+    <h1>Edit FilamentMaterial</h1>
+
+    {{ include('filament_material/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_filament_material_index') }}">back to list</a>
+
+    {{ include('filament_material/_delete_form.html.twig') }}
+{% endblock %}
