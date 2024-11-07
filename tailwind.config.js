@@ -1,8 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: "selector",
   content: [
+    "./vendor/tales-from-a-dev/flowbite-bundle/templates/**/*.html.twig",
     "./assets/**/*.js",
+    "./assets/custom/*.css",
     "./templates/**/*.html.twig",
+    "./src/Twig/Components/*.php",
+    "./src/Twig/**/*.php",
   ],
   theme: {
     fontFamily: {
@@ -17,6 +22,11 @@ module.exports = {
           '0%': { backgroundPosition: '0% 50%' },
           '100%': { backgroundPosition: '100% 50%' },
         },
+      },      
+      spacing: {
+        1.5: "0.375rem",
+        5.5: "1.375rem",
+        7.5: "1.875rem",
       },
     },
     backgroundImage: {
