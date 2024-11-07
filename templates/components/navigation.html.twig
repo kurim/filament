@@ -1,0 +1,127 @@
+{% trans_default_domain 'navigation' %}
+<nav class="bg-slate-600 dark:bg-black fixed z-20 top-0 start-0 w-full">
+	<div class="px-4 flex flex-wrap items-center justify-between sm:justify-end mx-auto p-2">
+		<a href="{{ path('app_home') }}" class="flex items-center space-x-3 sm:me-4 dark:invert">
+			<img class="h-8" src="{{ asset('images/filament.svg') }}" alt="logo">
+		</a>
+
+		<div
+			class="flex items-center md:order-2 space-x-3 md:space-x-2">
+			<!-- Theme toggle button -->
+			<div>
+				<label class="relative m-0 block h-7.5 w-14 rounded-full bg-black dark:bg-slate-600">
+					<input id="theme-toggle" type="checkbox" class="absolute top-0 z-50 m-0 h-full w-full cursor-pointer opacity-0">
+					<span
+						class="absolute left-1 top-1/2 flex h-6 w-6 -translate-y-1/2 translate-x-0 items-center justify-center rounded-full bg-white dark:bg-black shadow-switcher duration-75 ease-linear">
+						<!-- Light/dark mode icons -->
+						<span class="dark:hidden">
+							{{ ux_icon('heroicons:sun-16-solid', {class: 'h-6 w-6'}) }}
+						</span>
+						<span class="hidden dark:inline-block">
+							{{ ux_icon('heroicons:moon-16-solid', {class: 'h-6 w-6 text-white'}) }}
+						</span>
+					</span>
+				</label>
+			</div>
+
+			<!-- User menu dropdown -->
+			<button type="button" class="ml-2 flex text-sm bg-gray-800 text-asus_white rounded-full md:me-0 focus:ring-2 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-trigger="hover" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+				<span class="sr-only">Open user menu</span>
+				{% if app.user.avatar is defined %}
+					<img class="w-8 h-8 rounded-full" src="{{ asset('uploads/images/' ~ app.user.avatar) }}" alt="user photo">
+				{% elseif app.user is defined %}
+					<span class="mb-3 sm:mb-0 flex items-center justify-center w-8 h-8 rounded-full ring-white dark:ring-gray-900 dark:bg-asus_blue">
+						<p class="font-semibold">
+							{{ ux_icon('mdi:person', {class: 'h-6 w-6 dark:text-white'}) }}
+						</p>
+					</span>
+				{% else %}
+					<span class="mb-3 sm:mb-0 flex items-center justify-center w-8 h-8 rounded-full ring-white dark:ring-gray-900 dark:bg-asus_blue">
+						<p class="font-semibold">{{ app.user.username|first }}</p>
+					</span>
+				{% endif %}
+
+			</button>
+
+			<!-- Dropdown for user details -->
+			<div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-500 dark:divide-gray-600" id="user-dropdown">
+				{% if app.user.username is defined %}
+					<div class="px-4 py-3">
+						<span class="block text-sm text-black dark:text-white">{{ app.user.username }}</span>
+						<span class="block text-sm text-gray-500 truncate dark:text-gray-200">{{ app.user.email }}</span>
+					</div>
+				{% endif %}
+				<ul class="py-2">
+					{% for item in user_items %}
+						{% if not (app.user and item.getHiddenMenu()) %}
+							<li>
+								<a href="{{ path(item.route) }}" class="block py-2 px-3 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+									{{ ux_icon(item.icon, {class: 'inline-flex align-text-top h-5 w-5 me-2'}) }}
+									{{ item.name|trans }}
+								</a>
+							</li>
+						{% endif %}
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+
+		<!-- Navbar links -->
+		<div class="items-center justify-between hidden sm:mr-auto w-full md:flex md:w-auto md:order-1 h-8" id="navbar-user">
+			<ul class="flex flex-col leading-6 font-normal p-4 md:p-0 mt-4 border bg-asus_blue border-gray-100 rounded-lg md:space-x-4 md:flex-row md:mt-0 md:border-0 dark:bg-black dark:border-gray-700">
+				{% for item in menu_items %}
+					{% if not (app.user and item.getHiddenMenu()) %}
+						{# Check if the item is a simple link or a dropdown menu #}
+						<li>
+							{# Single item without children #}
+							{% if item.children is empty %}
+								<a href="{{ path(item.route) }}" class="block group py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-100 md:p-0 dark:text-white md:dark:hover:text-asus_rogredbtn dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+									<div class="inline">
+										{{ ux_icon(item.icon, {class: 'inline-flex align-text-top h-5 w-5', 'aria-hidden': 'true'}) }}
+										{{ item.name|trans }}
+									</div>
+								</a>
+							{% endif %}
+
+							{# Dropdown item with children #}
+							{% if item.children is not empty %}
+								<a id="{{ item.name }}-menu" data-dropdown-toggle="{{ item.name }}-menu-toggle" data-dropdown-trigger="hover" class="block group items-center justify-center py-2 px-3 text-white rounded cursor-pointer hover:bg-gray-100 md:hover:bg-transparent md:hover:text-gray-100 md:p-0 dark:text-white md:dark:hover:text-asus_rogredbtn dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">
+									<div class="inline">
+										{{ ux_icon(item.icon, {class: 'inline-flex align-text-top h-5 w-5', 'aria-hidden': 'true'}) }}
+										{{ item.name|trans }}
+										{% if item.children is not empty %}
+											<svg class="inline w-2.5 h-2.5 ms-0.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewbox="0 0 10 6">
+												<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"></path>
+											</svg>
+										{% endif %}
+									</div>
+								</a>
+
+								<!-- Dropdown menu -->
+								<div id="{{ item.name }}-menu-toggle" class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-500 dark:divide-gray-600">
+									<ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownLargeButton">
+										{% for child in item.children %}
+											{% if child.menutype == 'divider' %}
+												<li class="border-t border-gray-200 dark:border-gray-600 my-2"></li>
+												<!-- Render a divider as a horizontal line -->
+											{% else %}
+												<li>
+													<a href="{{ path(child.route) }}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+														{{ ux_icon(child.icon, {class: 'inline-flex align-text-top h-5 w-5 me-2', 'aria-hidden': 'true'}) }}
+														{{ child.name|trans }}
+													</a>
+												</li>
+
+											{% endif %}
+
+										{% endfor %}
+									</ul>
+								</div>
+							{% endif %}
+						</li>
+					{% endif %}
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+</nav>
