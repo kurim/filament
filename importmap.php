@@ -16,20 +16,17 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
-    '@hotwired/stimulus' => [
-        'version' => '3.2.2',
-    ],
     '@symfony/stimulus-bundle' => [
         'path' => './vendor/symfony/stimulus-bundle/assets/dist/loader.js',
-    ],
-    '@hotwired/turbo' => [
-        'version' => '7.3.0',
     ],
     '@symfony/ux-live-component' => [
         'path' => './vendor/symfony/ux-live-component/assets/dist/live_controller.js',
     ],
-    'tom-select' => [
-        'version' => '2.3.1',
+    '@hotwired/stimulus' => [
+        'version' => '3.2.2',
+    ],
+    '@hotwired/turbo' => [
+        'version' => '8.0.12',
     ],
     'flowbite' => [
         'version' => '2.5.2',
@@ -44,8 +41,18 @@ return [
         'version' => '2.5.2',
         'type' => 'css',
     ],
+    'simple-datatables' => [
+        'version' => '9.2.1',
+    ],
+    'simple-datatables/dist/style.min.css' => [
+        'version' => '9.2.1',
+        'type' => 'css',
+    ],
     'tom-select/dist/css/tom-select.default.css' => [
         'version' => '2.3.1',
         'type' => 'css',
+    ],
+    'tom-select' => [
+        'version' => '2.3.1',
     ],
 ];
