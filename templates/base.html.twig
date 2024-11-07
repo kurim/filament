@@ -1,22 +1,41 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Filament Info{% endblock %}</title>
-        <link rel="icon" href="{{ asset('images/filament.svg') }}">
-        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/filament.svg') }}">
-		<link rel="mask-icon" href="{{ asset('images/filament.svg') }}" color="#5bbad5">
-        {% block stylesheets %}{% endblock %}
-        {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
-        {% endblock %}
-    </head>
-    <body class="bg-gray-100 dark:bg-gray-700" {{ stimulus_controller('darkmode') }}>
-        <div class="flex flex-col">
-            {{ render_navigation() }}
-            <main class="bg-asus_white flex-1 p-8 pt-16 flex flex-col dark:bg-gray-700">
-            {% block body %}{% endblock %}
-            </main>
-        </div>
-    </body>
-</html>
+	<head>
+		<meta charset="UTF-8">
+		<title>
+			{% block title %}Filament Info
+			{% endblock %}
+		</title>
+		<link rel="icon" href="{{ asset('images/filament.svg') }}">
+		<link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/filament.svg') }}">
+		<link rel="mask-icon" href="{{ asset('images/filament.svg') }}" color="#5bbad5"> {% block stylesheets %}{% endblock %}
+		{% block javascripts %}
+			{% block importmap %}
+				{{ importmap('app') }}
+			{% endblock %}
+		{% endblock %}
+	</head>
+	<body class="bg-slate-200 dark:bg-gray-700" {{ stimulus_controller('darkmode') }}>
+		<div class="flex flex-col">
+			{% for message in app.flashes('success') %}
+				<div class="alert alert-success fixed top-4 right-4 z-50 transition-opacity duration-300 ease-in-out opacity-0" data-controller="message">
+					<div class="border-green-600 bg-green-400 text-white p-4 rounded-lg shadow-md">
+						<button class="delete bg-green-300"></button>
+						{{ message|trans }}
+					</div>
+				</div>
+			{% endfor %}
+			{% for message in app.flashes('error') %}
+				<div class="alert alert-error fixed top-4 right-4 z-50 transition-opacity duration-300 ease-in-out opacity-0" data-controller="message">
+					<div class="border-red-600 bg-red-400 text-white p-4 rounded-lg shadow-md">
+						<button class="delete bg-red-300"></button>
+						{{ message|trans }}
+					</div>
+				</div>
+			{% endfor %}
+			{{ render_navigation() }}
+			<main class="bg-slate-200 flex-1 p-8 pt-16 flex flex-col dark:bg-gray-700"> {% block body %}{% endblock %}
+				</main>
+			</div>
+		</body>
+	</html>
