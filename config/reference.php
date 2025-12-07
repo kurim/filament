@@ -636,7 +636,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         }>,
  *     },
  *     uid?: bool|array{ // Uid configuration
- *         enabled?: bool, // Default: false
+ *         enabled?: bool, // Default: true
  *         default_uuid_version?: 7|6|4|1, // Default: 7
  *         name_based_uuid_version?: 5|3, // Default: 5
  *         name_based_uuid_namespace?: scalar|null,
@@ -1490,6 +1490,9 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *     postcss_config_file?: scalar|null, // Path to PostCSS config file which is passed to the Tailwind CLI // Default: null
  *     strict_mode?: bool|null, // When enabled, an exception will be thrown if there are no built assets (default: false in `test` env, true otherwise) // Default: null
  * }
+ * @psalm-type SymfonycastsVerifyEmailConfig = array{
+ *     lifetime?: int, // The length of time in seconds that a signed URI is valid for after it is created. // Default: 3600
+ * }
  * @psalm-type ConfigType = array{
  *     imports?: ImportsConfig,
  *     parameters?: ParametersConfig,
@@ -1507,6 +1510,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *     twig_component?: TwigComponentConfig,
  *     live_component?: LiveComponentConfig,
  *     symfonycasts_tailwind?: SymfonycastsTailwindConfig,
+ *     symfonycasts_verify_email?: SymfonycastsVerifyEmailConfig,
  *     "when@dev"?: array{
  *         imports?: ImportsConfig,
  *         parameters?: ParametersConfig,
@@ -1527,6 +1531,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         twig_component?: TwigComponentConfig,
  *         live_component?: LiveComponentConfig,
  *         symfonycasts_tailwind?: SymfonycastsTailwindConfig,
+ *         symfonycasts_verify_email?: SymfonycastsVerifyEmailConfig,
  *     },
  *     "when@prod"?: array{
  *         imports?: ImportsConfig,
@@ -1545,6 +1550,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         twig_component?: TwigComponentConfig,
  *         live_component?: LiveComponentConfig,
  *         symfonycasts_tailwind?: SymfonycastsTailwindConfig,
+ *         symfonycasts_verify_email?: SymfonycastsVerifyEmailConfig,
  *     },
  *     "when@test"?: array{
  *         imports?: ImportsConfig,
@@ -1564,6 +1570,7 @@ namespace Symfony\Component\DependencyInjection\Loader\Configurator;
  *         twig_component?: TwigComponentConfig,
  *         live_component?: LiveComponentConfig,
  *         symfonycasts_tailwind?: SymfonycastsTailwindConfig,
+ *         symfonycasts_verify_email?: SymfonycastsVerifyEmailConfig,
  *     },
  *     ...<string, ExtensionType|array{ // extra keys must follow the when@%env% pattern or match an extension alias
  *         imports?: ImportsConfig,
