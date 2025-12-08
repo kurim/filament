@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\FilamentsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -46,6 +48,17 @@ class Filaments
 
     #[ORM\ManyToOne(inversedBy: 'filaments')]
     private ?User $updated_by = null;
+
+    /**
+     * @var Collection<int, UserFilaments>
+     */
+    #[ORM\OneToMany(targetEntity: UserFilaments::class, mappedBy: 'filament_id', orphanRemoval: true)]
+    private Collection $userFilaments;
+
+    public function __construct()
+    {
+        $this->userFilaments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -180,6 +193,36 @@ class Filaments
     public function setUpdatedBy(?User $updated_by): static
     {
         $this->updated_by = $updated_by;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserFilaments>
+     */
+    public function getUserFilaments(): Collection
+    {
+        return $this->userFilaments;
+    }
+
+    public function addUserFilament(UserFilaments $userFilament): static
+    {
+        if (!$this->userFilaments->contains($userFilament)) {
+            $this->userFilaments->add($userFilament);
+            $userFilament->setFilamentId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserFilament(UserFilaments $userFilament): static
+    {
+        if ($this->userFilaments->removeElement($userFilament)) {
+            // set the owning side to null (unless already changed)
+            if ($userFilament->getFilamentId() === $this) {
+                $userFilament->setFilamentId(null);
+            }
+        }
 
         return $this;
     }

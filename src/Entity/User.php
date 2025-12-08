@@ -69,11 +69,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Filaments::class, mappedBy: 'created_by')]
     private Collection $filaments;
 
+    /**
+     * @var Collection<int, UserFilaments>
+     */
+    #[ORM\OneToMany(targetEntity: UserFilaments::class, mappedBy: 'user_id')]
+    private Collection $userFilaments;
+
     public function __construct()
     {
         $this->filamentColors = new ArrayCollection();
         $this->filamentTypes = new ArrayCollection();
         $this->filaments = new ArrayCollection();
+        $this->userFilaments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -295,6 +302,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($filament->getCreatedBy() === $this) {
                 $filament->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserFilaments>
+     */
+    public function getUserFilaments(): Collection
+    {
+        return $this->userFilaments;
+    }
+
+    public function addUserFilament(UserFilaments $userFilament): static
+    {
+        if (!$this->userFilaments->contains($userFilament)) {
+            $this->userFilaments->add($userFilament);
+            $userFilament->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserFilament(UserFilaments $userFilament): static
+    {
+        if ($this->userFilaments->removeElement($userFilament)) {
+            // set the owning side to null (unless already changed)
+            if ($userFilament->getUserId() === $this) {
+                $userFilament->setUserId(null);
             }
         }
 
